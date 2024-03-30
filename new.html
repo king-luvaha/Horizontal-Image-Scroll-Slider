@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scroll Slider</title>
+    <link rel="stylesheet" href="new.css">
+</head>
+<body>
+    
+    <nav>
+        <div>
+            <div>Luvaha</div>
+            <div>One image at a time.</div>
+        </div>
+        <div>Est 2024</div>
+    </nav>
+
+    <div class="marker-wrapper">
+        <div class="marker">
+            <div class="grab"></div>
+        </div>
+        <div class="active-slide">1/10</div>
+    </div>
+
+    <div class="slider">
+        <div class="slider-wrapper">
+            <div class="slide">
+                <img src="ELA.jpeg" alt="">
+            </div>
+            <div class="slide">
+                <img src="ELA.jpeg" alt="">
+            </div>
+            <div class="slide">
+                <img src="ELA.jpeg" alt="">
+            </div>
+            <div class="slide">
+                <img src="ELA.jpeg" alt="">
+            </div>
+            <div class="slide">
+                <img src="ELA.jpeg" alt="">
+            </div>
+            <div class="slide">
+                <img src="ELA.jpeg" alt="">
+            </div>
+            <div class="slide">
+                <img src="ELA.jpeg" alt="">
+            </div>
+            <div class="slide">
+                <img src="ELA.jpeg" alt="">
+            </div>
+            <div class="slide">
+                <img src="ELA.jpeg" alt="">
+            </div>
+            <div class="slide">
+                <img src="ELA.jpeg" alt="">
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div>Elite</div>
+        <div> &copy;</div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script>
+
+        let target = 0;
+        let current = 0;
+        let ease = 0.075;
+
+        const slider = document.querySelector(".slider");
+        const sliderWrapper = document.querySelector(".slider-wrapper");
+        const markerWrapper = document.querySelector(".marker-wrapper");
+        const activeSlide = document.querySelector(".active-slide");
+
+        let maxScroll = sliderWrapper.offsetWidth - window.innerWidth;
+
+        function lerp(start, end, factor) {
+            return start + (end - start) * factor;
+        }
+
+        function updateActiveSliderNumber(markerMove, markerMaxMove) {
+            const partWidth = markerMaxMove / 10;
+            let currentPart = Math.round((markerMove - 70) / partWidth) + 1;
+            currentPart = Math.min(10, currentPart);
+            activeSlide.textContent = `${currentPart}/10`;
+        }
+
+        function update() {
+            current = lerp(current, target, ease);
+
+            gsap.set(".slider-wrapper", {
+                x: -current,
+            });
+
+            let moveRatio = current / maxScroll;
+
+            let markerMaxMove = window.innerWidth - markerWrapper.offsetWidth - 170;
+            let markerMove = 70 + moveRatio * markerMaxMove;
+            gsap.set(".marker-wrapper", {
+                x: markerMove,
+            });
+
+            updateActiveSliderNumber(markerMove, markerMaxMove);
+
+            requestAnimationFrame(update);
+        }
+
+        window.addEventListener("resize", () => {
+            maxScroll = sliderWrapper.offsetWidth - window.innerWidth;
+        });
+        
+        window.addEventListener("wheel", (e) => {
+            target += e.deltaY;
+
+            target = Math.max(0, target);
+            target = Math.min(maxScroll, target);
+        });
+
+        update();
+
+    </script>
+</body>
+</html>
