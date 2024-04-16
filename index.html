@@ -4,138 +4,227 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ScrollTrigger Animation</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Scroll Slider</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="logo"></div>
-    <div class="header">
-        <div class="letters">
-            <div>a</div>
-            <div>r</div>
-            <div>t</div>
-            <div>w</div>
+    
+    <nav>
+        <div>
+            <div>KARURA FOREST</div>
+            <div>One image at a time.</div>
         </div>
-        <div class="letters">
-            <div>o</div>
-            <div>r</div>
-            <div>k</div>
-            <div>s</div>
+        <div>Est 2024</div>
+    </nav>
+
+    <div class="marker-wrapper">
+        <div class="marker">
+            <div class="grab"></div>
+        </div>
+        <div class="active-slide">1/10</div>
+    </div>
+
+    <div class="slider">
+        <div class="slider-wrapper">
+            <div class="slide">
+                <img src="IMAGES/1.jpeg" alt="">
+            </div>
+
+            <div class="slide">
+                <img src="IMAGES/2.jpeg" alt="">
+            </div>
+
+            <div class="slide">
+                <img src="IMAGES/3.jpeg" alt="">
+            </div>
+
+            <div class="slide">
+                <img src="IMAGES/4.jpeg" alt="">
+            </div>
+
+            <div class="slide">
+                <img src="IMAGES/5.jpeg" alt="">
+            </div>
+
+            <div class="slide">
+                <img src="IMAGES/6.jpeg" alt="">
+            </div>
+
+            <div class="slide">
+                <img src="IMAGES/7.jpeg" alt="">
+            </div>
+
+            <div class="slide">
+                <img src="IMAGES/8.jpeg" alt="">
+            </div>
+
+            <div class="slide">
+                <img src="IMAGES/9.jpeg" alt="">
+            </div>
+
+            <div class="slide">
+                <img src="IMAGES/10.jpeg" alt="">
+            </div>
+
+            <div class="slide">
+                <img src="IMAGES/11.jpeg" alt="">
+            </div>
+
+            <div class="slide">
+                <img src="IMAGES/12.jpeg" alt="">
+            </div>
+
+            <div class="slide">
+                <img src="IMAGES/13.jpeg" alt="">
+            </div>
+
+            <div class="slide">
+                <img src="IMAGES/14.jpeg" alt="">
+            </div>
+
+            <div class="slide">
+                <img src="IMAGES/15.jpeg" alt="">
+            </div>
+
+            <div class="slide">
+                <img src="IMAGES/16.jpeg" alt="">
+            </div>
+
+            <div class="slide">
+                <img src="IMAGES/17.jpeg" alt="">
+            </div>
+
+            <div class="slide">
+                <img src="IMAGES/18.jpeg" alt="">
+            </div>
+            
         </div>
     </div>
 
-    <div class="website-content">
-        <div class="img-holder">
-            <img src="ELA.jpeg" alt="">
-        </div>
-
-        <div class="content-holder">
-            <div class="row">
-                <h1>History</h1>
-            </div>
-
-            <div class="row">
-                <div class="img">
-                    <img src="ELA.jpeg" alt="">
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="img">
-                    <img src="ELA.jpeg" alt="">
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="img">
-                    <img src="ELA.jpeg" alt="">
-                </div>
-            </div>
-
-            <!-- <div class="row">
-                <p>Don't wish for it, work for it.</p>
-            </div>
-
-            <div class="row">
-                <p>Lovely day, innit?</p>
-            </div>
-
-            <div class="row">
-                <p>I eat food for breakfast.</p>
-            </div> -->
-
-        </div>
-    </div>
+    <footer>
+        <div>ADVENTURE</div>
+        <div> &copy; VIBES x INSHALLAH</div>
+    </footer>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 
-    <script>
-        gsap.registerPlugin(ScrollTrigger);
+    <!-- <script>
 
-        document.addEventListener("DOMContentLoaded", function() {
-            const contentHolderHeight = document.querySelector(".content-holder").offsetHeight;
-            const imgHolderHeight = window.innerHeight;
-            const additionalScrollHeight = window.innerHeight;
+        let target = 0;
+        let current = 0;
+        let ease = 0.075;
 
-            const totalBodyHeight = contentHolderHeight + imgHolderHeight + additionalScrollHeight;
-            document.body.style.height = `${totalBodyHeight}px`;
+        const slider = document.querySelector(".slider");
+        const sliderWrapper = document.querySelector(".slider-wrapper");
+        const markerWrapper = document.querySelector(".marker-wrapper");
+        const activeSlide = document.querySelector(".active-slide");
+
+        let maxScroll = sliderWrapper.offsetWidth - window.innerWidth;
+
+        function lerp(start, end, factor) {
+            return start + (end - start) * factor;
+        }
+
+        function updateActiveSliderNumber(markerMove, markerMaxMove) {
+            const partWidth = markerMaxMove / 10;
+            let currentPart = Math.round((markerMove - 70) / partWidth) + 1;
+            currentPart = Math.min(10, currentPart);
+            activeSlide.textContent = `${currentPart}/10`;
+        }
+
+        function update() {
+            current = lerp(current, target, ease);
+
+            gsap.set(".slider-wrapper", {
+                x: -current,
+            });
+
+            let moveRatio = current / maxScroll;
+
+            let markerMaxMove = window.innerWidth - markerWrapper.offsetWidth - 170;
+            let markerMove = 70 + moveRatio * markerMaxMove;
+            gsap.set(".marker-wrapper", {
+                x: markerMove,
+            });
+
+            updateActiveSliderNumber(markerMove, markerMaxMove);
+
+            requestAnimationFrame(update);
+        }
+
+        window.addEventListener("resize", () => {
+            maxScroll = sliderWrapper.offsetWidth - window.innerWidth;
+        });
+        
+        window.addEventListener("wheel", (e) => {
+            target += e.deltaY;
+
+            target = Math.max(0, target);
+            target = Math.min(maxScroll, target);
         });
 
-        ScrollTrigger.create({
-            trigger: ".website-content",
-            start: "-0.1% top",
-            end: "bottom bottom",
-            onEnter: () => {
-                gsap.set(".website-content", { position: 'absolute', top: '195%' });
-            },
-            onLeaveBack: () => {
-                gsap.set(".website-content", { position: 'fixed', top: '0' });
-            }
-        })
+        update();
 
-        gsap.to(".header .letters:first-child", {
-            x: () => -innerWidth * 3,
-            scale: 10,
-            ease: "power2.inOut",
-            scrollTrigger: {
-                start: "top top",
-                end: `+=200%`,
-                scrub: 1
-            }
+    </script> -->
+
+<script>
+    let totalSlides = document.querySelectorAll('.slide').length; // Get the total number of slides dynamically
+    let target = 0;
+    let current = 0;
+    let ease = 0.075;
+
+    const slider = document.querySelector(".slider");
+    const sliderWrapper = document.querySelector(".slider-wrapper");
+    const markerWrapper = document.querySelector(".marker-wrapper");
+    const activeSlide = document.querySelector(".active-slide");
+
+    let maxScroll = sliderWrapper.offsetWidth - window.innerWidth;
+
+    function lerp(start, end, factor) {
+        return start + (end - start) * factor;
+    }
+
+    function updateActiveSliderNumber(markerMove, markerMaxMove) {
+        const partWidth = markerMaxMove / totalSlides;
+        let currentPart = Math.round((markerMove - 70) / partWidth) + 1;
+        currentPart = Math.min(totalSlides, currentPart);
+        activeSlide.textContent = `${currentPart}/${totalSlides}`;
+    }
+
+    function update() {
+        current = lerp(current, target, ease);
+
+        gsap.set(".slider-wrapper", {
+            x: -current,
         });
 
-        gsap.to(".header .letters:last-child", {
-            x: () => innerWidth * 3,
-            scale: 10,
-            ease: "power2.inOut",
-            scrollTrigger: {
-                start: "top top",
-                end: `+=200%`,
-                scrub: 1
-            }
+        let moveRatio = current / maxScroll;
+
+        let markerMaxMove = window.innerWidth - markerWrapper.offsetWidth - 170;
+        let markerMove = 70 + moveRatio * markerMaxMove;
+        gsap.set(".marker-wrapper", {
+            x: markerMove,
         });
 
-        gsap.to(".img-holder", {
-            rotation: 0,
-            clipPath: 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)',
-            ease: "power2.inOut",
-            scrollTrigger: {
-                start: "top top",
-                end: `+=200%`,
-                scrub: 1
-            }
-        });
+        updateActiveSliderNumber(markerMove, markerMaxMove);
 
-        gsap.to(".img-holder img", {
-            scale: 1,
-            ease: "power2.inOut",
-            scrollTrigger: {
-                start: "top top",
-                end: `+=200%`,
-                scrub: 1
-            }
-        });
-    </script>
+        requestAnimationFrame(update);
+    }
+
+    window.addEventListener("resize", () => {
+        maxScroll = sliderWrapper.offsetWidth - window.innerWidth;
+    });
+    
+    window.addEventListener("wheel", (e) => {
+        target += e.deltaY;
+
+        target = Math.max(0, target);
+        target = Math.min(maxScroll, target);
+    });
+
+    update();
+
+</script>
+
 </body>
 </html>
